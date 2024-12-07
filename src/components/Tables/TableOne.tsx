@@ -1,10 +1,14 @@
 import Image from "next/image";
 
-const TableOne = ({fiveUsers}: {fiveUsers: any[]}) => {
+const TableOne = ({fiveUsers, onlyFive}: {fiveUsers: any[], onlyFive: boolean}) => {
   return (
     <div className="rounded-sm border border-stroke bg-white px-5 pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
       <h4 className="mb-6 text-xl font-semibold text-black dark:text-white">
-        Latest 5 Users
+        {
+          onlyFive
+            ? "Top 5 Users"
+            : "All Users"
+        }
       </h4>
 
       <div className="flex flex-col">
@@ -25,29 +29,35 @@ const TableOne = ({fiveUsers}: {fiveUsers: any[]}) => {
             </h5>
           </div>
         </div>
-        {fiveUsers.map((brand, key) => (
-          <div
-            className={`grid grid-cols-3 ${
-              key === fiveUsers.length - 1
-                ? ""
-                : "border-b border-stroke dark:border-strokedark"
-            }`}
-            key={key}
-          >
-            <div className="flex items-center justify-center p-2.5 xl:p-5">
-              <p className="text-black dark:text-white">{brand.id.toString().substring(0, 15)}</p>
+        {fiveUsers.map((brand, key) => {
+          const date = brand.createdAt as Date
+          const year = date.getFullYear()-2
+          const day = date.getDate()
+          const month = date.getMonth()
+          return(
+            <div
+              className={`grid grid-cols-3 ${
+                key === fiveUsers.length - 1
+                  ? ""
+                  : "border-b border-stroke dark:border-strokedark"
+              }`}
+              key={key}
+            >
+              <div className="flex items-center justify-center p-2.5 xl:p-5">
+                <p className="text-black dark:text-white">{brand.id.toString().substring(0, 15)}</p>
+              </div>
+  
+              <div className="flex items-center justify-center p-2.5 xl:p-5">
+                <p className="text-meta-3">{brand.dominantpersonality}</p>
+              </div>
+  
+              <div className="flex items-center justify-center p-2.5 xl:p-5">
+                <p className="text-black dark:text-white">{`${day}-${month}-${year}`}</p>
+              </div>
+  
             </div>
-
-            <div className="flex items-center justify-center p-2.5 xl:p-5">
-              <p className="text-meta-3">{brand.dominantpersonality}</p>
-            </div>
-
-            <div className="flex items-center justify-center p-2.5 xl:p-5">
-              <p className="text-black dark:text-white">{brand.createdAt.toLocaleDateString('en-GB').split('/').join('-')}</p>
-            </div>
-
-          </div>
-        ))}
+          )
+        })}
       </div>
     </div>
   );

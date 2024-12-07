@@ -135,3 +135,8 @@ export const getTopPersonalitiesForChart = async () => {
   
     return series;
 };
+
+export async function GetAllUsers () {
+    const users = await prisma.user.findMany()
+    return users
+}

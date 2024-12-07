@@ -84,7 +84,7 @@ const ECommerce: React.FC<any> = ({metrics, personalityDistribution, fiveUsers, 
         <ChartOne topPerso={topPerso} />
         <ChartThree personalityDistribution={personalityDistribution} />
         <div className="col-span-12 xl:col-span-8">
-          <TableOne fiveUsers={fiveUsers} />
+          <TableOne fiveUsers={fiveUsers} onlyFive={true} />
         </div>
       </div>
     </>
