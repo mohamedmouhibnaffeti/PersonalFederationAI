@@ -7,7 +7,6 @@ import ChatCard from "../Chat/ChatCard";
 import TableOne from "../Tables/TableOne";
 import CardDataStats from "../CardDataStats";
 import Cookies from 'js-cookie'
-import jwt from 'jsonwebtoken'
 import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 

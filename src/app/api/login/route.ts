@@ -38,10 +38,6 @@ export async function POST(req: Request) {
   const response = NextResponse.json({ token });
 
   response.cookies.set('userId', user.id.toString(), {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'strict',
-    path: '/',
     maxAge: 365 * 24 * 60 * 60,
   });
 
