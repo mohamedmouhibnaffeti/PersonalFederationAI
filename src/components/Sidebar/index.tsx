@@ -7,6 +7,7 @@ import Image from "next/image";
 import SidebarItem from "@/components/Sidebar/SidebarItem";
 import ClickOutside from "@/components/ClickOutside";
 import useLocalStorage from "@/hooks/useLocalStorage";
+import { UserIcon } from "lucide-react";
 
 interface SidebarProps {
   sidebarOpen: boolean;
@@ -78,6 +79,13 @@ const menuGroups = [
         ),
         label: "Tables",
         route: "/tables",
+      },
+      {
+        icon: (
+          <UserIcon />
+        ),
+        label: "My Profile",
+        route: "/profile",
       },
     ],
   },
