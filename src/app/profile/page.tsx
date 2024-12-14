@@ -5,12 +5,11 @@ import { getUserPersonalityDistribution } from "../actions/User";
 import UserProfileClient from "@/components/common/pages/UserProfileClient";
 
 const Profile = async() => {
-  const personaliytDistribution = await getUserPersonalityDistribution(5)
   return (
     <DefaultLayout>
       <div className="mx-auto max-w-242.5">
         <Breadcrumb pageName="Profile" />
-        <UserProfileClient personaliytDistribution={personaliytDistribution} />
+        <UserProfileClient/>
       </div>
     </DefaultLayout>
   );

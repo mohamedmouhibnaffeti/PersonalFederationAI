@@ -7,13 +7,14 @@ import Cookies from 'js-cookie'
 import axios from "axios"
 import UserDetailsModal from "@/components/modals/UserDetails";
 
-function UserProfileClient({personaliytDistribution}: {personaliytDistribution: any}) {
+function UserProfileClient() {
     const router = useRouter()
     const [userID, setUserID] = useState("")
     const [name, setName] = useState("")
     const [email, setEmail] = useState("")
     const [personality, setPersonality] = useState("")
     const [id, setId] = useState("")
+    const [personalities, setPersonalities] = useState<any>()
     useEffect(() => {
         const userid = Cookies.get('userId')
         if (!userid) {
@@ -34,15 +35,18 @@ function UserProfileClient({personaliytDistribution}: {personaliytDistribution: 
                 router.replace('/login')
                 return
             }else{
-                const {user} = response.data
+                const {user, personalities} = response.data
                 setName(user.name)
                 setEmail(user.email)
                 setPersonality(user.personality)
                 setId(user.id)
+                setPersonalities(personalities)
             }
         }
         getPersonalData()
     }, [userID])
+
+    console.log(personalities)
 
     return (
         <div className="overflow-hidden rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
@@ -85,7 +89,9 @@ function UserProfileClient({personaliytDistribution}: {personaliytDistribution: 
                 </div>
                 <UserDetailsModal />
                 <div className="mt-5 max-w-[28rem] mx-auto">
-                <ChartThree personalityDistribution={personaliytDistribution} />
+                {
+                    personalities?.length > 0 && <ChartThree personalityDistribution={personalities} />
+                }
                 </div>
             </div>
             </div>

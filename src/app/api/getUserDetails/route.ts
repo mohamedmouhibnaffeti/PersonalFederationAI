@@ -1,18 +1,51 @@
 import { NextResponse } from 'next/server';
-
-
+import prisma from '@/app/utils/prismaclient';
 export async function POST(req: Request) {
-  const body = await req.json();
-  const {userID} = body
+  try {
+    const body = await req.json();
+    const { userID } = body;
+
     const user = await prisma?.user.findFirst({
-        where: {
+      where: {
         id: parseInt(userID),
+      },
+      include: {
+        userpersonality: {
+          select: {
+            name: true,
+            value: true,
+          },
+          orderBy: {
+            value: 'desc',
+          },
         },
+      },
     });
+
     if (!user) {
-        return NextResponse.json({ error: 'Invalid username or email' }, { status: 401 });
+      return NextResponse.json({ error: 'Invalid username or email' }, { status: 401 });
     }
-    else{
-        return NextResponse.json({ user });
-    }
+    const series: any[] = [];
+
+    user.userpersonality.forEach((personality, index) => {
+      if (!series[index]) {
+        series[index] = {
+          name: personality.name,
+          data: [],
+        };
+      }
+
+      series[index].data.push(Number(personality.value.toFixed(2)));
+    })
+
+    const responseData = {
+      user,
+      personalities:  user.userpersonality.map((p) => (parseFloat(p.value.toFixed(2)))),
+    };
+
+    return NextResponse.json(responseData);
+  } catch (error) {
+    console.error('Error fetching user data:', error);
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+  }
 }
