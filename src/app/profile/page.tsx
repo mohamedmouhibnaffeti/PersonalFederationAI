@@ -46,7 +46,7 @@ const Profile = async() => {
                   </span>
                 </div>
               </div>
-              <div className="mt-5 max-w-94 mx-auto">
+              <div className="mt-5 max-w-[28rem] mx-auto">
                 <ChartThree personalityDistribution={personaliytDistribution} />
               </div>
             </div>
