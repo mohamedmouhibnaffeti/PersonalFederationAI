@@ -6,15 +6,6 @@ import DropdownUser from "./DropdownUser";
 import Image from "next/image";
 
 import { Button } from "@/components/ui/button"
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog"
 import Modal from "./Modal";
 
 const Header = (props: {

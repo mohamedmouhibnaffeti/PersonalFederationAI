@@ -1,7 +1,38 @@
+"use client"
 import React from "react";
 import bg from "@/components/Images/personalityLogin.jpg";
+import { useState } from "react";
+import { useRouter } from 'next/navigation'
 import { LogInIcon } from "lucide-react";
 function Login() {
+  const [email, setEmail] = useState('')
+  const [username, setUsername] = useState('')
+  const router = useRouter()
+
+  const handleLogin = async (e: any) => {
+    e.preventDefault()
+    if(username === '' || email === '') return alert("Please fill in all fields")
+    try {
+      const response = await fetch('/api/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: username,
+          email: email,
+        }),
+      })
+
+      if (!response.ok) alert("Login Failed")
+
+      const { token } = await response.json()
+      document.cookie = `token=${token}; path=/`
+      router.push('/')
+    } catch (error) {
+      console.error(error)
+    }
+  }
   return (
     <div
       className="fixed h-screen w-full bg-authbg bg-cover bg-center"
@@ -24,6 +55,7 @@ function Login() {
                     id="email"
                     name="email"
                     type="text"
+                    onChange={(e)=>setEmail(e.target.value)}
                     required
                     className="border-b text-white border-gray-300 py-1 focus:border-b-2 dark:focus:border-gray-200 focus:border-white transition-colors focus:outline-none peer bg-inherit w-full placeholder-transparent"
                     placeholder=" "
@@ -37,6 +69,7 @@ function Login() {
                 <div className="relative w-full">
                   <input
                   id="username"
+                  onChange={(e)=>setUsername(e.target.value)}
                   name="username"
                   type="text"
                   required
@@ -49,7 +82,7 @@ function Login() {
                   >Username</label
                   >
                 </div>
-                <button className="bg-indigo-700 flex text-white w-full justify-center items-center rounded-md py-[0.3rem] gap-2 hover:bg-indigo-800 transition-all duration-150 active:bg-indigo-600"> 
+                <button onClick={handleLogin} className="bg-indigo-700 flex text-white w-full justify-center items-center rounded-md py-[0.3rem] gap-2 hover:bg-indigo-800 transition-all duration-150 active:bg-indigo-600"> 
                   Login <LogInIcon className="w-5 h-5" />
                 </button>
                 <p className="text-sm">

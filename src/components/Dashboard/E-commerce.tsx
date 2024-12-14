@@ -6,6 +6,10 @@ import ChartTwo from "../Charts/ChartTwo";
 import ChatCard from "../Chat/ChatCard";
 import TableOne from "../Tables/TableOne";
 import CardDataStats from "../CardDataStats";
+import Cookies from 'js-cookie'
+import jwt from 'jsonwebtoken'
+import { useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 
 const MapOne = dynamic(() => import("@/components/Maps/MapOne"), {
   ssr: false,
@@ -16,6 +20,33 @@ const ChartThree = dynamic(() => import("@/components/Charts/ChartThree"), {
 });
 
 const ECommerce: React.FC<any> = ({metrics, personalityDistribution, fiveUsers, topPerso}: {metrics: any, personalityDistribution: Array<number>, fiveUsers: any[], topPerso: any}) => {
+  const router = useRouter()
+
+  useEffect(() => {
+    const token = Cookies.get('token')
+
+    if (!token) {
+      router.replace('/login')
+      return
+    }
+
+    const validateToken = async () => {
+      try {
+        const res = await fetch('/api/protected', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+
+        if (!res.ok) throw new Error('Token validation failed')
+      } catch (error) {
+        console.error(error)
+        router.replace('/login')
+      }
+    }
+
+    validateToken()
+  }, [router])
   console.log(fiveUsers)
   return (
     <>
