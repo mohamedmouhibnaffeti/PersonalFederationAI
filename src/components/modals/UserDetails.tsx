@@ -27,18 +27,18 @@ function UserDetailsModal() {
 
     const handleSubmit = async () => {
         const newData = {
-            gender: [gender],
-            relationship_status: [relationshipStatus],
-            education: [education],
-            location: [location],
-            sports: [sports.split(",")],
-            favorite_teams: [favoriteTeams.split(",")],
-            friends_count: [parseInt(friendsCount)],
-            posts_count: [parseInt(postsCount)],
-            likes_count: [parseInt(likesCount)],
-            music_count: [parseInt(musicCount)],
+            gender: gender, 
+            relationship_status: relationshipStatus,
+            education: education,
+            location: location,
+            sports: sports.split(","),
+            favorite_teams: favoriteTeams.split(","),
+            friends_count: parseInt(friendsCount),
+            posts_count: parseInt(postsCount),
+            likes_count: parseInt(likesCount),
+            music_count: parseInt(musicCount),
         };
-
+    
         try {
             const response = await axios.post(serverUrl, newData);
             console.log("Response:", response.data);
@@ -46,6 +46,7 @@ function UserDetailsModal() {
             console.error("Error:", error);
         }
     };
+    
 
     return (
         <Dialog>

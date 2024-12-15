@@ -1,10 +1,22 @@
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import joblib
 import pandas as pd
 import requests
 
 app = FastAPI()
+origins = [
+    "http://localhost:3000",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 try:
     model = joblib.load("model.pkl")
@@ -33,8 +45,8 @@ def predict_and_send(input_data: PredictionInput):
             "relationship_status": input_data.relationship_status,
             "education": input_data.education,
             "location": input_data.location,
-            "sports": [input_data.sports],
-            "favorite_teams": [input_data.favorite_teams],
+            "sports": input_data.sports,
+            "favorite_teams": input_data.favorite_teams,
             "friends_count": input_data.friends_count,
             "posts_count": input_data.posts_count,
             "likes_count": input_data.likes_count,
