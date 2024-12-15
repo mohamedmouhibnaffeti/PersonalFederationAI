@@ -72,6 +72,22 @@ function UserProfileClient() {
                 }
                 </p>
             </div>
+            <div className="flex justify-between items-center mt-4 max-sm:flex-col max-sm:gap-4">
+            <a
+                href="/api/downloadModel"
+                download="model.pkl"
+                className="bg-indigo-800 text-white font-semibold px-4 py-2 rounded-lg hover:bg-indigo-900 active:bg-indigo-700 transition-all duration-150"
+            >
+                Download Model
+            </a>
+            <a
+                href="/api/downloadScript"
+                download="script.py"
+                className="bg-purple-800 text-white font-semibold px-4 py-2 rounded-lg hover:bg-purple-900 active:bg-purple-700 transition-all duration-150"
+            >
+                Download Script
+            </a>
+            </div>
             <div className="mt-4">
                 <h3 className="mb-1.5 text-2xl font-semibold text-black dark:text-white capitalize">
                 {name}
