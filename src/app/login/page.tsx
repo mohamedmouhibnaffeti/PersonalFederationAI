@@ -26,9 +26,10 @@ function Login() {
 
       if (!response.ok) alert("Login Failed")
 
-      const { token } = await response.json()
+      const { token, role } = await response.json()
       document.cookie = `token=${token}; path=/`
-      router.push('/')
+      if(role === 'admin') router.push('/')
+        else if (role === 'user') router.push('/profile')
     } catch (error) {
       console.error(error)
     }

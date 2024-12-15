@@ -6,7 +6,6 @@ import DropdownUser from "./DropdownUser";
 import Image from "next/image";
 
 import { Button } from "@/components/ui/button"
-import Modal from "./Modal";
 
 const Header = (props: {
   sidebarOpen: string | boolean | undefined;
@@ -109,7 +108,6 @@ const Header = (props: {
           <ul className="flex items-center gap-2 2xsm:gap-4">
             {/* <!-- Dark Mode Toggler --> */}
             <DarkModeSwitcher />
-            <Modal />
             {/* <!-- Dark Mode Toggler --> */}
             {
               /*

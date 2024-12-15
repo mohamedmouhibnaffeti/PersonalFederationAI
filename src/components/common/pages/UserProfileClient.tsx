@@ -36,9 +36,10 @@ function UserProfileClient() {
                 return
             }else{
                 const {user, personalities} = response.data
+                console.log(user)
                 setName(user.name)
                 setEmail(user.email)
-                setPersonality(user.personality)
+                setPersonality(user.dominantpersonality)
                 setId(user.id)
                 setPersonalities(personalities)
             }
@@ -82,13 +83,13 @@ function UserProfileClient() {
                     <span className="text-sm">Dominant Personality</span>
                     <span className="font-semibold text-black dark:text-white">
                     {
-                        personality ? personality : "Not Available"
+                        "Neuroticism"
                     }
                     </span>
                 </div>
                 </div>
                 <UserDetailsModal />
-                <div className="mt-5 max-w-[28rem] mx-auto">
+                <div className="mt-5 max-w-[30rem] mx-auto">
                 {
                     personalities?.length > 0 && <ChartThree personalityDistribution={personalities} />
                 }

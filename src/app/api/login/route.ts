@@ -6,9 +6,16 @@ async function authenticateUser(name: string, email: string) {
     where: {
       email: email,
     },
+    select: {
+      id: true,
+      role: true,
+      dominantpersonality: true,
+      name: true,
+      email: true
+    }
   });
   if (user) {
-    console.log(user);
+    console.log({user});
     return user;
   } else {
     const createdUser = await prisma?.user.create({
@@ -17,7 +24,7 @@ async function authenticateUser(name: string, email: string) {
         name: name,
       },
     });
-    console.log(createdUser);
+    console.log({createdUser});
     return createdUser;
   }
 }
@@ -35,11 +42,15 @@ export async function POST(req: Request) {
     expiresIn: '365d',
   });
 
-  const response = NextResponse.json({ token });
+  const response = NextResponse.json({ token, role: user.role });
 
   response.cookies.set('userId', user.id.toString(), {
     maxAge: 365 * 24 * 60 * 60,
   });
+  response.cookies.set('role', user.role, {
+    maxAge: 365 * 24 * 60 * 60,
+  });
+  
 
   return response;
 }

@@ -1,20 +1,54 @@
 "use client";
-import React, { useState, ReactNode } from "react";
+import React, { useState, ReactNode, useEffect } from "react";
 import Sidebar from "@/components/Sidebar";
 import Header from "@/components/Header";
-
+import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
 export default function DefaultLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const router = useRouter()
+  const [role, setRole] = useState<string | null>(null)
+
+  useEffect(() => {
+    const Role = Cookies.get('role')
+    const token = Cookies.get('token')
+
+    if (!token) {
+      router.replace('/login')
+      return
+    } 
+    const validateToken = async () => {
+      try {
+        const res = await fetch('/api/protected', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+
+        if (!res.ok) throw new Error('Token validation failed')
+      } catch (error) {
+        console.error(error)
+        router.replace('/login')
+      }
+    }
+
+    validateToken()
+    setRole(Role as string)
+    if (Role !== 'admin') {
+      router.replace('/profile')
+      return
+    }
+  }, [router])
   return (
     <>
       {/* <!-- ===== Page Wrapper Start ===== --> */}
       <div className="flex">
         {/* <!-- ===== Sidebar Start ===== --> */}
-        <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+        <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} role={role as string} />
         {/* <!-- ===== Sidebar End ===== --> */}
 
         {/* <!-- ===== Content Area Start ===== --> */}

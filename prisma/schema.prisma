@@ -20,6 +20,7 @@ model User {
   dominantpersonality String?
   userpersonality UserPersonality[]
   createdAt DateTime @default(now())
+  role      String   @default("user")
 }
 
 model UserPersonality {

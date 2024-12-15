@@ -28,6 +28,9 @@ const ECommerce: React.FC<any> = ({metrics, personalityDistribution, fiveUsers, 
       router.replace('/login')
       return
     }
+    
+    const role = Cookies.get('role')
+    if (role !== 'admin') router.replace('/profile')
 
     const validateToken = async () => {
       try {
