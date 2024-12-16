@@ -13,6 +13,7 @@ import {
 
 function UserDetailsModal({userID}: {userID: string}) {
     const serverUrl = "http://127.0.0.1:8000/predict";
+    const [loading, setLoading] = useState(false);
 
     const [gender, setGender] = useState("");
     const [relationshipStatus, setRelationshipStatus] = useState("");
@@ -26,6 +27,7 @@ function UserDetailsModal({userID}: {userID: string}) {
     const [musicCount, setMusicCount] = useState("");
 
     const handleSubmit = async () => {
+        setLoading(true)
         const newData = {
             gender: gender, 
             relationship_status: relationshipStatus,
@@ -43,7 +45,12 @@ function UserDetailsModal({userID}: {userID: string}) {
         try {
             const response = await axios.post(serverUrl, newData);
             console.log("Response:", response.data);
+            if(response.status === 200){
+                setLoading(false)
+                window.location.reload()
+            }
         } catch (error) {
+            setLoading(false)
             console.error("Error:", error);
         }
     };
@@ -220,7 +227,8 @@ function UserDetailsModal({userID}: {userID: string}) {
                             <div className="mt-4 flex justify-end space-x-2">
                                 <button
                                     type="submit"
-                                    className="px-4 py-2 bg-blue-500 text-white rounded-md shadow-md hover:bg-blue-600 transition"
+                                    disabled={loading}
+                                    className={`px-4 py-2 bg-blue-950 text-white rounded-md shadow-md hover:bg-blue-900 transition active:bg-blue-800/70 ${loading ? "cursor-not-allowed bg-blue-800/70" : ""}`}
                                 >
                                     Submit
                                 </button>

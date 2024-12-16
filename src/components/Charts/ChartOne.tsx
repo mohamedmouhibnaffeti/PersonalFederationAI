@@ -143,7 +143,7 @@ const ChartOne: React.FC<any> = ({topPerso}: {topPerso: any}) => {
             </span>
             <div className="w-full">
               <p className="font-semibold text-primary">{topPerso[0].name}</p>
-              <p className="text-sm font-medium">12.04.2022 - 12.05.2022</p>
+              <p className="text-sm font-medium">19.06.2024 - 19.12.2024</p>
             </div>
           </div>
           <div className="flex min-w-47.5">
@@ -152,7 +152,7 @@ const ChartOne: React.FC<any> = ({topPerso}: {topPerso: any}) => {
             </span>
             <div className="w-full">
               <p className="font-semibold text-secondary">{topPerso[1].name}</p>
-              <p className="text-sm font-medium">12.04.2022 - 12.05.2022</p>
+              <p className="text-sm font-medium">19.06.2024 - 19.12.2024</p>
             </div>
           </div>
         </div>

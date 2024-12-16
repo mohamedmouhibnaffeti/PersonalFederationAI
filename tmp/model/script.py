@@ -34,9 +34,11 @@ class PredictionInput(BaseModel):
     posts_count: int
     likes_count: int
     music_count: int
+    user: int
 
 @app.post("/predict")
 def predict_and_send(input_data: PredictionInput):
+    print(input_data)
     server_url = "http://127.0.0.1:5000/upload_predictions"
 
     try:
@@ -54,11 +56,11 @@ def predict_and_send(input_data: PredictionInput):
         }])
 
         predictions = model.predict(data).tolist()
-
-        response = requests.post(server_url, json={"predictions": predictions})
+        flattened_list = [value for sublist in predictions for value in sublist]
+        response = requests.post(server_url, json={"predictions": flattened_list, "user": input_data.user})
 
         if response.status_code == 200:
-            return {"message": "Predictions successfully sent to the server!", "predictions": predictions}
+            return {"message": "Predictions successfully sent to the server!", "predictions": predictions, "user": input_data.user}
         else:
             raise HTTPException(status_code=response.status_code, detail=response.text)
 

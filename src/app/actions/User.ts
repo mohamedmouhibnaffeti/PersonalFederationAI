@@ -66,26 +66,35 @@ export async function getUserMetrics() {
 
 
 export async function getUserPersonalityDistribution(userId: number) {
-    const orderedLabels = ["Neuroticism", "Agreeableness", "Extraversion", "Conscientiousness", "Openness"];
-    const personalities = await prisma.userPersonality.findMany({
-        where: { userId },
-        select: {
-        name: true,
-        value: true,
-        },
-    });
+  const orderedLabels = ["Openness", "Conscientiousness", "Agreeableness", "Extraversion", "Neuroticism"];
 
-    if (personalities.length === 0) {
-        return null;
-    }
+  const personalities = await prisma.userPersonality.findMany({
+      select: {
+          name: true,
+          value: true,
+      },
+  });
 
-    const distributionMap = Object.fromEntries(
-        personalities.map(personality => [personality.name, personality.value])
-    );
+  if (personalities.length === 0) {
+      return null;
+  }
 
-    const series = orderedLabels.map(label => distributionMap[label] || 0);
-    return series;
+  const totalValues: any = personalities.reduce((acc: any, personality: any) => {
+      acc[personality.name] = (acc[personality.name] || 0) + personality.value;
+      return acc;
+  }, {});
+
+  const totalSum: any = Object.values(totalValues).reduce((acc: any, value: any) => acc + value, 0);
+
+  const series = orderedLabels.map(label => {
+      const traitValue = totalValues[label] || 0;
+      const percentage = (traitValue / totalSum) * 100;
+      return percentage;
+  });
+
+  return series;
 }
+
 
 export async function getFiveUsers() {
     const users = await prisma.user.findMany({
@@ -116,6 +125,7 @@ export const getTopPersonalitiesForChart = async () => {
           take: 2, 
         },
       },
+      take: 5
     });
   
     const series: any[] = [];
