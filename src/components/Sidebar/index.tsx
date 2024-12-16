@@ -7,8 +7,9 @@ import Image from "next/image";
 import SidebarItem from "@/components/Sidebar/SidebarItem";
 import ClickOutside from "@/components/ClickOutside";
 import useLocalStorage from "@/hooks/useLocalStorage";
-import { UserIcon } from "lucide-react";
-
+import { LogOutIcon, UserIcon } from "lucide-react";
+import Cookies from "js-cookie";
+import { useRouter } from "next/navigation";
 interface SidebarProps {
   sidebarOpen: boolean;
   setSidebarOpen: (arg: boolean) => void;
@@ -95,7 +96,13 @@ const menuGroups = [
 const Sidebar = ({ sidebarOpen, setSidebarOpen, role }: SidebarProps) => {
   const pathname = usePathname();
   const [pageName, setPageName] = useLocalStorage("selectedMenu", "dashboard");
-
+  const router = useRouter()
+  const Logout = () => {
+    Cookies.remove('token')
+    Cookies.remove('role')
+    Cookies.remove('userId')
+    router.replace('/login')
+  }
   return (
     <ClickOutside onClick={() => setSidebarOpen(false)}>
       <aside
@@ -169,8 +176,11 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen, role }: SidebarProps) => {
     </ul>
   </div>
 ))}
-
+    <div onClick={Logout} className="text-red-600 hover:text-red-500 flex items-center cursor-pointer mt-[100%] gap-2">
+      Logout <LogOutIcon className="w-5 h-5" />
+    </div>
           </nav>
+          
           {/* <!-- Sidebar Menu --> */}
         </div>
       </aside>
