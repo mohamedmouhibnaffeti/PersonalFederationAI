@@ -14,10 +14,7 @@ export async function POST(req: Request) {
           select: {
             name: true,
             value: true,
-          },
-          orderBy: {
-            value: 'desc',
-          },
+          }
         },
       },
     });
@@ -40,7 +37,7 @@ export async function POST(req: Request) {
 
     const responseData = {
       user,
-      personalities:  user.userpersonality.map((p) => (parseFloat(p.value.toFixed(2)))),
+      personalities:  user.userpersonality,
     };
 
     return NextResponse.json(responseData);

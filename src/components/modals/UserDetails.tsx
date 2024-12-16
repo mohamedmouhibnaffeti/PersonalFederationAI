@@ -11,7 +11,7 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog";
 
-function UserDetailsModal() {
+function UserDetailsModal({userID}: {userID: string}) {
     const serverUrl = "http://127.0.0.1:8000/predict";
 
     const [gender, setGender] = useState("");
@@ -37,6 +37,7 @@ function UserDetailsModal() {
             posts_count: parseInt(postsCount),
             likes_count: parseInt(likesCount),
             music_count: parseInt(musicCount),
+            user: parseInt(userID)
         };
     
         try {

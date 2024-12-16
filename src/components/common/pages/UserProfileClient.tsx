@@ -99,13 +99,13 @@ function UserProfileClient() {
                     <span className="text-sm">Dominant Personality</span>
                     <span className="font-semibold text-black dark:text-white">
                     {
-                        "Neuroticism"
+                        personality ? personality : "Not Available"
                     }
                     </span>
                 </div>
                 </div>
-                <UserDetailsModal />
-                <div className="mt-5 max-w-[30rem] mx-auto">
+                <UserDetailsModal userID={userID} />
+                <div className="mt-5 max-w-[32rem] mx-auto">
                 {
                     personalities?.length > 0 && <ChartThree personalityDistribution={personalities} />
                 }

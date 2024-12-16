@@ -29,7 +29,7 @@ export async function getUserMetrics() {
   
     const growthPercentage = usersLastMonth === 0 
       ? (usersThisMonth > 0 ? 100 : 0) 
-      : ((usersThisMonth - usersLastMonth) / usersLastMonth) * 100;
+      : Math.abs(((usersThisMonth - usersLastMonth) / usersLastMonth)) * 100;
   
     const personalityResult = await prisma.userPersonality.groupBy({
       by: ['name'],

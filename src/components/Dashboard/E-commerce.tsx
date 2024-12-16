@@ -9,6 +9,7 @@ import CardDataStats from "../CardDataStats";
 import Cookies from 'js-cookie'
 import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
+import ChartThreeCopy from "../Charts/ChartThreeCopy";
 
 const MapOne = dynamic(() => import("@/components/Maps/MapOne"), {
   ssr: false,
@@ -115,7 +116,7 @@ const ECommerce: React.FC<any> = ({metrics, personalityDistribution, fiveUsers, 
 
       <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">
         <ChartOne topPerso={topPerso} />
-        <ChartThree personalityDistribution={personalityDistribution} />
+        <ChartThreeCopy personalityDistribution={personalityDistribution} />
         <div className="col-span-12 xl:col-span-8">
           <TableOne fiveUsers={fiveUsers} onlyFive={true} />
         </div>
